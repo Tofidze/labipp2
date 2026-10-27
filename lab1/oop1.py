@@ -1,3 +1,5 @@
+import json
+
 class Passenger:
     def __init__(self, name: str, ticket_number: str):
         self.name = name
@@ -57,3 +59,16 @@ if __name__ == "__main__":
 
     print()
     park.show_park()
+
+
+data = {
+    "route": bus.route_number,
+    "capacity": bus.capacity,
+    "passengers": [{"name": p.name, "ticket": p.ticket_number} for p in bus.passengers]
+}
+with open("transport.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+
+with open("transport.json", "r", encoding="utf-8") as f:
+    loaded_data = json.load(f)
+    print("Загружено из JSON:", loaded_data)
