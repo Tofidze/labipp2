@@ -1,14 +1,3 @@
-class TransportError(Exception):
-    pass
-
-class OverbookingError(TransportError):
-    def __init__(self, current: int, max_cap: int):
-        super().__init__(f"нельзя добавить пассажиров занято {current}, максимум {max_cap}")
-
-class InvalidSpeedError(TransportError):
-    def __init__(self, speed: float):
-        super().__init__(f"недопустимая скорость {speed}")
-
 class Passenger:
     def __init__(self, name: str, ticket_number: str):
         self.name = name
@@ -33,3 +22,16 @@ class TransportVehicle:
 
     def __str__(self):
         return f"{self.vehicle_type} №{self.route_number} (Пассажиров: {len(self.passengers)}/{self.capacity})"
+
+class TransportPark:
+    def __init__(self, name: str):
+        self.name = name
+        self.vehicles = []
+
+    def add_vehicle(self, vehicle: TransportVehicle):
+        self.vehicles.append(vehicle)
+
+    def show_park(self):
+        print(f"Автопарк '{self.name}':")
+        for v in self.vehicles:
+            print(f" - {v}")
