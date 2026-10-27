@@ -35,3 +35,25 @@ class TransportPark:
         print(f"Автопарк '{self.name}':")
         for v in self.vehicles:
             print(f" - {v}")
+
+
+if __name__ == "__main__":
+
+    park = TransportPark("Городской Транспорт")
+
+    bus = TransportVehicle(route_number="101", capacity=2, vehicle_type="Автобус")
+    tram = TransportVehicle(route_number="5", capacity=20, vehicle_type="Трамвай")
+
+    park.add_vehicle(bus)
+    park.add_vehicle(tram)
+
+    p1 = Passenger("Иван", "T-01")
+    p2 = Passenger("Анна", "T-02")
+    p3 = Passenger("Петр", "T-03")
+
+    bus.add_passenger(p1)
+    bus.add_passenger(p2)
+    bus.add_passenger(p3)
+
+    print()
+    park.show_park()
