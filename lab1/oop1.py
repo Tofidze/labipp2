@@ -29,10 +29,20 @@ def main():
 
         elif choice == "2":
             r_num = input("Введите номер маршрута: ")
-            cap = int(input("Введите вместимость: "))
-            v_type = input("Введите тип (Автобус / Трамвай): ")
             
-            service.add_vehicle(r_num, cap, v_type)
+            try:
+                cap = int(input("Введите вместимость (целое число): "))
+                
+                print("Выберите тип транспорта:")
+                print("1 - Автобус")
+                print("2 - Трамвай")
+                v_type_code = int(input("Ваш выбор (1 или 2): "))
+                
+                # Передаем данные в слой сервиса
+                service.add_vehicle(r_num, cap, v_type_code)
+                
+            except ValueError:
+                print("[Ошибка]: Вместимость и тип транспорта должны быть целыми числами!")
 
         elif choice == "3":
             r_num = input("Введите номер маршрута транспорта: ")
