@@ -43,7 +43,7 @@ class TransportRepository:
                     vehicles.append(vehicle)
                 return vehicles
         except Exception as e:
-            print(f"[Ошибка чтения файла]: {e}")
+            print(f"Ошибка чтения файла: {e}")
             return []
 
     def save_data(self, vehicles: list):
@@ -52,4 +52,4 @@ class TransportRepository:
             with open(self.filename, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            print(f"[Ошибка записи файла]: {e}")
+            print(f"Ошибка записи файла: {e}")
