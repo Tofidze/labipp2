@@ -27,7 +27,7 @@ def find_imeis_in_text(text: str) -> list:
     return valid_imeis
 
 def process_user_input():
-    user_input = input("Введите IMEI")
+    user_input = input("Введите IMEI\n")
     if luhn_check(user_input):
         print(f"'{user_input}' правильный")
     else:
@@ -44,7 +44,7 @@ def process_file(filepath: str):
         if valid_imeis:
             print(f"Найдено корректных IMEI: {len(valid_imeis)}")
             for imei in valid_imeis:
-                print(f"  • {imei}")
+                print(f" {imei}")
         else:
             print("Корректных IMEI в файле нет")
             
@@ -60,11 +60,11 @@ if __name__ == "__main__":
         print("2. Найти IMEI в файле")
         print("3. Выход")
         
-        choice = input("Выберите действие")        
+        choice = input("Выберите действие\n")        
         if choice == '1':
             process_user_input()
         elif choice == '2':
-            path = input("Введите путь к текстовому файлу").strip()
+            path = input("Введите путь к текстовому файлу\n").strip()
             process_file(path)
         elif choice == '3':
             print("Выход из программы")
