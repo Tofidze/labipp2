@@ -3,6 +3,8 @@ import re
 def luhn_check(imei: str) -> bool:
     if not isinstance(imei, str) or not re.fullmatch(r'\d{15}', imei):
         return False
+    if imei == imei[0] * len(imei):
+        return False
     
     digits = [int(c) for c in imei]
     s = 0
