@@ -1,4 +1,5 @@
 import re
+import requests
 
 def luhn_check(imei: str) -> bool:
     if not isinstance(imei, str) or not re.fullmatch(r'\d{15}', imei):
@@ -28,6 +29,19 @@ def find_imeis_in_text(text: str) -> list:
     valid_imeis = [imei for imei in potential_imeis if luhn_check(imei)]
     return valid_imeis
 
+
+def fetch_imeis_from_url(url: str) -> list:
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+
+        return find_imeis_in_text(response.text)
+
+    except requests.RequestException as e:
+        print(f"Ошибка загрузки страницы: {e}")
+        return []
+
+
 def process_user_input():
     user_input = input("Введите IMEI\n")
     if luhn_check(user_input):
@@ -55,21 +69,38 @@ def process_file(filepath: str):
     except Exception as e:
         print(f"ошибка при чтении файла: {e}")
 
+def process_url():
+    url = input("Введите URL страницы: ").strip()
+    if not url.startswith("http://") and not url.startswith("https://"):
+        url = "https://" + url
+        
+    valid_imeis = fetch_imeis_from_url(url)
+    if valid_imeis:
+        print(f"Найдено корректных IMEI на странице: {len(valid_imeis)}")
+        for imei in valid_imeis:
+            print(f"{imei}")
+    else:
+        print("Корректных IMEI на странице не найдено или сайт недоступен.")
+
 if __name__ == "__main__":
     while True:
         print("\n=== Меню проверки IMEI ===")
         print("1. Проверить IMEI с клавиатуры")
-        print("2. Найти IMEI в файле")
-        print("3. Выход")
+        print("2. Найти IMEI в локальном файле")
+        print("3. Найти IMEI на веб-сайте по ссылке")
+        print("4. Выход")
         
-        choice = input("Выберите действие\n")        
+        choice = input("Выберите действие 1-4:").strip()
+        
         if choice == '1':
             process_user_input()
         elif choice == '2':
-            path = input("Введите путь к текстовому файлу\n").strip()
+            path = input("Введите путь к текстовому файлу: ").strip()
             process_file(path)
         elif choice == '3':
+            process_url()
+        elif choice == '4':
             print("Выход из программы")
             break
         else:
-            print("Неверный выбор")
+            print("Неверный выбор.")
